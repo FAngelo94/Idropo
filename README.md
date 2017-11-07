@@ -1,1 +1,2 @@
 # Idropo
+https://learn.sparkfun.com/tutorials/graphic-lcd-hookup-guide
