@@ -2,6 +2,7 @@
 * (Not Work) https://learn.sparkfun.com/tutorials/graphic-lcd-hookup-guide
 * Memoria EEPROM Arduino http://www.mauroalfieri.it/elettronica/tutorial-usare-la-eeprom-di-arduino.html
 * Libraries https://www.arduino.cc/en/Reference/Libraries
+* DFPlayer Mini: https://www.dfrobot.com/wiki/index.php/DFPlayer_Mini_SKU:DFR0299
 
 # Oggetti comprati
 * Pulsanti = https://www.amazon.it/SODIAL-Interruttore-pulsante-rontondo-Momentaneo/dp/B00F4MGQU2/ref=pd_bxgy_60_img_2?_encoding=UTF8&psc=1&refRID=7DSJ9Y2AGYWJCPFG5YGD
