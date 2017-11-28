@@ -109,7 +109,7 @@ void manageButtons(){
   }
   if(analogRead(B_readTime)>3)
   {
-    playAudio("days");
+    playAudio("days "+readDays());
   }
   if(analogRead(B_sayInfo)>3)
   {
@@ -124,15 +124,14 @@ void manageButtons(){
 void manageTime(){
   if(lastTime<millis())
     spendTime=spendTime+(lastTime-millis());
-    lastTime=millis();
   else
     spendTime=spendTime+millis();
-    lastTime=millis();
-    if(spendTime/3600000>hours)//Check when pass 1 hour
-    {//after 1 hour I save the time
-      writeTime();
-      hours=hours+1;
-    }
+  lastTime=millis();
+  if(spendTime/3600000>hours)//Check when pass 1 hour
+  {//after 1 hour I save the time
+    writeTime();
+    hours=hours+1;
+  }
 }
 void resetTime(){
   for(int i=0;i<1024;i++)
@@ -164,7 +163,98 @@ void writeTime(){
     tmp=tmp/10;
   }
 }
+int readDays()
+{
+  int days=(int)(hours/24);
+  return days;
+}
 
 void playAudio(String audio){
- myDFPlayer.play(1);  //Play the first mp3
+  myDFPlayer.play(1);  //Play the first mp3
+  //Tutorial
+
+  //Info
+  
+ 
+  //Days
+  if(audio=="day 1")
+    myDFPlayer.play(1);
+  if(audio=="day 2")
+    myDFPlayer.play(2);
+  if(audio=="day 3")
+    myDFPlayer.play(3);
+  if(audio=="day 4")
+    myDFPlayer.play(4);
+  if(audio=="day 5")
+    myDFPlayer.play(5);
+  if(audio=="day 6")
+    myDFPlayer.play(6);
+  if(audio=="day 7")
+    myDFPlayer.play(7);
+  if(audio=="day 8")
+    myDFPlayer.play(8);
+  if(audio=="day 9")
+    myDFPlayer.play(9);
+  if(audio=="day 10")
+    myDFPlayer.play(10);
+  if(audio=="day 11")
+    myDFPlayer.play(11);
+  if(audio=="day 12")
+    myDFPlayer.play(12);
+  if(audio=="day 13")
+    myDFPlayer.play(13);
+  if(audio=="day 14")
+    myDFPlayer.play(14);
+  if(audio=="day 15")
+    myDFPlayer.play(15);
+  if(audio=="day 16")
+    myDFPlayer.play(16);
+  if(audio=="day 17")
+    myDFPlayer.play(17);
+  if(audio=="day 18")
+    myDFPlayer.play(18);
+  if(audio=="day 19")
+    myDFPlayer.play(19);
+  if(audio=="day 20")
+    myDFPlayer.play(20);
+  if(audio=="day 21")
+    myDFPlayer.play(21);
+  if(audio=="day 22")
+    myDFPlayer.play(22);
+  if(audio=="day 23")
+    myDFPlayer.play(23);
+  if(audio=="day 24")
+    myDFPlayer.play(24);
+  if(audio=="day 25")
+    myDFPlayer.play(25);
+  if(audio=="day 26")
+    myDFPlayer.play(26);
+  if(audio=="day 27")
+    myDFPlayer.play(27);
+  if(audio=="day 28")
+    myDFPlayer.play(28);
+  if(audio=="day 29")
+    myDFPlayer.play(29);
+  if(audio=="day 30")
+    myDFPlayer.play(30);
+  if(audio=="day 31")
+    myDFPlayer.play(31);
+  if(audio=="day 32")
+    myDFPlayer.play(32);
+  if(audio=="day 33")
+    myDFPlayer.play(33);
+  if(audio=="day 34")
+    myDFPlayer.play(34);
+  if(audio=="day 35")
+    myDFPlayer.play(35);
+  if(audio=="day 36")
+    myDFPlayer.play(36);
+  if(audio=="day 37")
+    myDFPlayer.play(37);
+  if(audio=="day 38")
+    myDFPlayer.play(38);
+  if(audio=="day 39")
+    myDFPlayer.play(39);
+  if(audio=="day 40")
+    myDFPlayer.play(40);
 }
