@@ -16,6 +16,7 @@ DFRobotDFPlayerMini myDFPlayer;
 
 //DISPLAY
 #define lightLed 13
+extern unsigned char BigNumbers[];
 extern uint8_t happyFace[];
 extern uint8_t lightFace[];
 extern uint8_t waterFace[];
@@ -39,10 +40,14 @@ void setup() {
   pinMode(lightLed, OUTPUT);
   //df player
   mySoftwareSerial.begin(9600);
-  myDFPlayer.volume(20);  //Set volume value. From 0 to 30
+  myDFPlayer.begin(mySoftwareSerial);
+  myDFPlayer.volume(5);  //Set volume value. From 0 to 30
   //time
   readTime();
   lastTime=millis();
+  //lcd
+  lcd.InitLCD();  //initialize LCD screen
+  lcd.setFont(BigNumbers);  //set font for LCD
 }
 
 void loop() {
@@ -80,9 +85,9 @@ void showDisplay(String face)
 void lightDisplay(boolean light)
 {
   if(light)
-    digitalWrite(lightLed, HIGH);
+    digitalWrite(lightLed, LOW);//turno on
   else
-    digitalWrite(lightLed, LOW);
+    digitalWrite(lightLed, HIGH);//turn off
 }
 
 boolean checkLight(){
@@ -118,12 +123,13 @@ void manageButtons(){
 
 void manageTime(){
   if(lastTime<millis())
-    spendTime=spendTime+(lastTime<millis());
+    spendTime=spendTime+(lastTime-millis());
+    lastTime=millis();
   else
     spendTime=spendTime+millis();
     lastTime=millis();
     if(spendTime/3600000>hours)//Check when pass 1 hour
-    {
+    {//after 1 hour I save the time
       writeTime();
       hours=hours+1;
     }
@@ -136,10 +142,10 @@ void resetTime(){
   lastTime=millis();
 }
 void readTime(){
-  int spendTime=0;
+  spendTime=0;
   int a=0;
   int number=-1;
-  while(number!=0)
+  while(number<=32)//2^32 = 4 miliardi di millisecondi = + di 40 giorni
   {
     number=EEPROM.read(a);
     spendTime=spendTime+number*pow(10,a);
