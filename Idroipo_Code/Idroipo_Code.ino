@@ -22,6 +22,8 @@ extern uint8_t lightFace[];
 extern uint8_t waterFace[];
 //pin names in order: sclk, dn mosi, dc, rst, sce
 LCD5110 lcd(12, 11, 10, 8, 9);
+int delayDisplay;
+String stateFace;
 
 //TIME
 float spendTime;
@@ -48,38 +50,49 @@ void setup() {
   mySoftwareSerial.begin(9600);
   myDFPlayer.begin(mySoftwareSerial);
   myDFPlayer.volume(30);  //Set volume value. From 0 to 30
-  myDFPlayer.play(1);
   delayAudio=millis();
   info=2;
   //time
   readTime();
-  lastTime=millis();
+  lastTime=millis();Serial.begin(115200);
+  Serial.println("start");
   //lcd
-  /*lcd.InitLCD();  //initialize LCD screen
-  lcd.setFont(BigNumbers);  //set font for LCD*/
-
+  lcd.InitLCD();  //initialize LCD screen
+  lcd.setFont(BigNumbers);  //set font for LCD
+  delayDisplay=-10000;
+  showDisplay("happy");
+  delayDisplay=millis();
+  lightDisplay(false);
+  stateFace="happy";
   Serial.println("start");
 }
 
 void loop() {
-  /*boolean happy=true;
-  if(checkWater)
+  boolean happy=true;
+  if(checkWater())
   {
-    showDisplay("water");
+    if(stateFace!="water")
+      showDisplay("water");
     happy=false;
+    stateFace="water";
+    Serial.println("voglio acqua");
   }
-  if(checkLight && happy)
+  if(checkLight() && happy)
   {
-    showDisplay("light");
+    if(stateFace!="light")
+      showDisplay("light");
     happy=false;
+    stateFace="light";
   }
   if(happy)
   {
-    showDisplay("happy");
-  }*/
+    if(stateFace!="happy")
+      showDisplay("happy");
+    stateFace="happy";
+  }
   manageButtons();
   //manageTime();
-  delay(10);
+  delay(50);
 }
 
 void showDisplay(String face)
@@ -102,6 +115,7 @@ void lightDisplay(boolean light)
 }
 
 boolean checkLight(){
+  Serial.println(analogRead(pinLight));
   if(analogRead(pinLight)>=ValueLight)
     return true;
   return false;
@@ -109,8 +123,8 @@ boolean checkLight(){
 
 boolean checkWater(){
   if(digitalRead(pinWater)==1)
-    return true;
-  return false;
+    return false;
+  return true;
 }
 
 void manageButtons(){
@@ -120,7 +134,7 @@ void manageButtons(){
   }
   if(analogRead(B_readTime)==1023 && millis()-delayAudio>=1000)
   {
-    playAudio("days "+readDays());
+    playAudio("day 0");
     delayAudio=millis();
   }
   if(analogRead(B_sayInfo)==1023 && millis()-delayAudio>=1000)
@@ -184,9 +198,11 @@ int readDays()
 }
 
 void playAudio(String audio){
-  myDFPlayer.play(1);  //Play the first mp3
   //Tutorial
-
+  if(audio=="tutorial")
+  {
+    myDFPlayer.play(12); 
+  }
   //Info
   if(audio=="info")
   {
