@@ -31,10 +31,10 @@ float lastTime;
 float hours;
 
 //BUTTONS
-#define B_resetTime A5
+#define B_resetTime A1
 #define B_readTime A4
-#define B_sayInfo A3
-#define B_saytutorial A2 
+#define B_sayInfo A2
+#define B_saytutorial A3 
 int delayAudio; 
 int info;
 
@@ -51,7 +51,7 @@ void setup() {
   myDFPlayer.begin(mySoftwareSerial);
   myDFPlayer.volume(30);  //Set volume value. From 0 to 30
   delayAudio=millis();
-  info=2;
+  info=1;
   //time
   readTime();
   lastTime=millis();Serial.begin(115200);
@@ -75,7 +75,6 @@ void loop() {
       showDisplay("water");
     happy=false;
     stateFace="water";
-    Serial.println("voglio acqua");
   }
   if(checkLight() && happy)
   {
@@ -115,7 +114,6 @@ void lightDisplay(boolean light)
 }
 
 boolean checkLight(){
-  Serial.println(analogRead(pinLight));
   if(analogRead(pinLight)>=ValueLight)
     return true;
   return false;
@@ -128,22 +126,29 @@ boolean checkWater(){
 }
 
 void manageButtons(){
-  if(analogRead(B_resetTime)==1023 && millis()-delayAudio>=1000)
+  //Serial.print("Reset ");Serial.println(analogRead(B_resetTime));
+  
+  
+  
+  /*if(analogRead(B_resetTime)==500 && millis()-delayAudio>=1000)
   {
     resetTime();
-  }
-  if(analogRead(B_readTime)==1023 && millis()-delayAudio>=1000)
+  }*/
+  if(analogRead(B_readTime)>=500 && millis()-delayAudio>=1000)
   {
+    Serial.print("Read Time ");Serial.println(analogRead(B_readTime));
     playAudio("day 0");
     delayAudio=millis();
   }
-  if(analogRead(B_sayInfo)==1023 && millis()-delayAudio>=1000)
+  if(analogRead(B_sayInfo)>=500 && millis()-delayAudio>=1000)
   {
+    Serial.print("Info ");Serial.println(analogRead(B_sayInfo));
     playAudio("info");
     delayAudio=millis();
   }
-  if(analogRead(B_saytutorial)==1023 && millis()-delayAudio>=1000)
+  if(analogRead(B_saytutorial)>=500 && millis()-delayAudio>=1000)
   {
+    Serial.print("Tutorial ");Serial.println(analogRead(B_saytutorial));
     playAudio("tutorial");
     delayAudio=millis();
   }
@@ -201,18 +206,20 @@ void playAudio(String audio){
   //Tutorial
   if(audio=="tutorial")
   {
-    myDFPlayer.play(12); 
+    myDFPlayer.play(13); 
   }
   //Info
   if(audio=="info")
   {
     myDFPlayer.play(info);
     info++;
+    if(info==2)
+      info++;
     if(info==12)
-      info=2;
+      info=1;
   }
  
   //Days
   if(audio=="day 0")
-    myDFPlayer.play(1);
+    myDFPlayer.play(2);
 }
